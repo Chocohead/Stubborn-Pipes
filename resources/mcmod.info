@@ -1,0 +1,19 @@
+[
+{
+	"modid": "stubborn_pipes",
+	"name": "Stubborn Pipes",
+	"description": "Adds FU carrying BuildCraft pipes",
+	"version": "${version}",
+	"mcversion": "${mcversion}",
+	"credits": "BuildCraft team for the code in which large parts of this is based off of",
+	"authorList": ["Chocohead"],
+	"logoFile": "",
+	"url": "",
+	"updateUrl": "",
+	"parent": "",
+	"screenshots": [],
+	"dependencies": [
+     "buildcrafttransport"
+  ]
+}
+]

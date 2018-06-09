@@ -1,0 +1,89 @@
+{
+    "entry_mask": "<mod>:compat/buildcraft/guide/<lang>/<type>/<page>",
+    "default_tags": {
+        "mod": "stubborn_pipes"
+    },
+    "contents": [ {
+            "title": "item.pipe.stubborn_pipes.wood_power.name",
+            "item_stack": "(stubborn_pipes:wood_power)",
+            "page": "wooden_pipe.md",
+            "type_tags": {
+                "type": "pipe",
+                "sub_type": "pipe_fu"
+            }
+        }, {
+            "title": "item.pipe.stubborn_pipes.cobblestone_power.name",
+            "item_stack": "(stubborn_pipes:cobblestone_power)",
+            "page": "cobble_pipe.md",
+            "type_tags": {
+                "type": "pipe",
+                "sub_type": "pipe_fu"
+            }
+        }, {
+            "title": "item.pipe.stubborn_pipes.sandstone_power.name",
+            "item_stack": "(stubborn_pipes:sandstone_power)",
+            "page": "sandstone_pipe.md",
+            "type_tags": {
+                "type": "pipe",
+                "sub_type": "pipe_fu"
+            }
+        }, {
+            "title": "item.pipe.stubborn_pipes.stone_power.name",
+            "item_stack": "(stubborn_pipes:stone_power)",
+            "page": "stone_pipe.md",
+            "type_tags": {
+                "type": "pipe",
+                "sub_type": "pipe_fu"
+            }
+        }, {
+            "title": "item.pipe.stubborn_pipes.quartz_power.name",
+            "item_stack": "(stubborn_pipes:quartz_power)",
+            "page": "quartz_pipe.md",
+            "type_tags": {
+                "type": "pipe",
+                "sub_type": "pipe_fu"
+            }
+        }, {
+            "title": "item.pipe.stubborn_pipes.iron_power.name",
+            "item_stack": "(stubborn_pipes:iron_power)",
+            "page": "iron_pipe.md",
+            "type_tags": {
+                "type": "pipe",
+                "sub_type": "pipe_fu"
+            }
+        }, {
+            "title": "item.pipe.stubborn_pipes.gold_power.name",
+            "item_stack": "(stubborn_pipes:gold_power)",
+            "page": "gold_pipe.md",
+            "type_tags": {
+                "type": "pipe",
+                "sub_type": "pipe_fu"
+            }
+        }, {
+            "title": "item.pipe.stubborn_pipes.diamond_power.name",
+            "item_stack": "(stubborn_pipes:diamond_power)",
+            "page": "diamond_pipe.md",
+            "type_tags": {
+                "type": "pipe",
+                "sub_type": "pipe_fu"
+            }
+        }, {
+            "title": "item.pipe.stubborn_pipes.diamond_wood_power.name",
+            "item_stack": "(stubborn_pipes:diamond_wood_power)",
+            "page": "emerald_pipe.md",
+            "type_tags": {
+                "type": "pipe",
+                "sub_type": "pipe_fu"
+            }
+        }, {
+            "type": "stubborn_pipes:pipe", 
+            "title": "stubborn_pipes.pipe",
+            "source": "a_pipe",
+            "page": "pipes.md",
+            "type_tags": {
+                "type": "pipe",
+                "sub_type": "pipe_fu"
+            }
+        }
+    ]
+}
