@@ -8,7 +8,6 @@ import java.util.List;
 
 import com.google.common.collect.Iterables;
 import org.apache.commons.lang3.tuple.Pair;
-import org.lwjgl.input.Keyboard;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -19,15 +18,11 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.NonNullList;
 
-import net.minecraftforge.client.event.GuiScreenEvent.KeyboardInputEvent.Pre;
 import net.minecraftforge.common.crafting.IShapedRecipe;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import buildcraft.lib.client.guide.GuiGuide;
 import buildcraft.lib.client.guide.GuideManager;
 import buildcraft.lib.client.guide.PageLine;
 import buildcraft.lib.client.guide.loader.XmlPageLoader;
@@ -38,7 +33,6 @@ import buildcraft.lib.gui.GuiStack;
 import buildcraft.lib.gui.ISimpleDrawable;
 import buildcraft.lib.recipe.ChangingItemStack;
 
-@EventBusSubscriber(modid = StubbornPipes.MODID)
 public class GuideThings {
 	public static class PipeEntryType extends PageEntryType<String> {
 		public static final String ID = StubbornPipes.MODID + ":pipe";
@@ -173,19 +167,5 @@ public class GuideThings {
 			return Collections.singletonList(new GuideCraftingFactoryDirect(Arrays.stream(inputs).map(inner -> Arrays.stream(inner).map(ChangingItemStack::new).toArray(ChangingItemStack[]::new)).toArray(ChangingItemStack[][]::new),
 					new ChangingItemStack(outputs)));
 		});
-	}
-
-	@SubscribeEvent
-	@SideOnly(Side.CLIENT)
-	public static void onKey(Pre event) {
-		if (event.getGui().getClass() == GuiGuide.class) {
-			if (Keyboard.isKeyDown(Keyboard.KEY_F3) && Keyboard.getEventKey() == Keyboard.KEY_T) {
-				Minecraft mc = Minecraft.getMinecraft();
-
-				mc.displayGuiScreen(null);
-				GuideManager.INSTANCE.onResourceManagerReload(mc.getResourceManager());
-				mc.displayGuiScreen(new GuiGuide());
-			}
-		}
 	}
 }
