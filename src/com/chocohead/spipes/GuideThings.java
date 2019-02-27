@@ -7,26 +7,36 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.google.common.collect.Iterables;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonObject;
 import org.apache.commons.lang3.tuple.Pair;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.profiler.Profiler;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.common.crafting.IShapedRecipe;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import buildcraft.api.registry.IScriptableRegistry.OptionallyDisabled;
+
 import buildcraft.lib.client.guide.GuideManager;
+import buildcraft.lib.client.guide.GuidePageRegistry;
 import buildcraft.lib.client.guide.PageLine;
+import buildcraft.lib.client.guide.entry.IEntryLinkConsumer;
+import buildcraft.lib.client.guide.entry.PageEntry;
+import buildcraft.lib.client.guide.entry.PageValueType;
 import buildcraft.lib.client.guide.loader.XmlPageLoader;
-import buildcraft.lib.client.guide.loader.entry.PageEntryType;
 import buildcraft.lib.client.guide.parts.GuideText;
 import buildcraft.lib.client.guide.parts.recipe.GuideCraftingFactoryDirect;
 import buildcraft.lib.gui.GuiStack;
@@ -34,22 +44,32 @@ import buildcraft.lib.gui.ISimpleDrawable;
 import buildcraft.lib.recipe.ChangingItemStack;
 
 public class GuideThings {
-	public static class PipeEntryType extends PageEntryType<String> {
+	public static class PipeValueType extends PageValueType<Object> {
 		public static final String ID = StubbornPipes.MODID + ":pipe";
-		public static final PipeEntryType INSTANCE = new PipeEntryType();
+		private static final Object INSTANCE = new Object();
 
 		@Override
-		public String deserialise(String source) {
-			return source;
+		public Class<Object> getEntryClass() {
+			return Object.class;
 		}
 
 		@Override
-		public List<String> getTooltip(String value) {
-			return Collections.singletonList(value);
+		public OptionallyDisabled<PageEntry<Object>> deserialize(ResourceLocation name, JsonObject json, JsonDeserializationContext ctx) {
+			return new OptionallyDisabled<>(new PageEntry<>(this, name, json, INSTANCE));
 		}
 
 		@Override
-		public ISimpleDrawable createDrawable(String value) {
+		public String getTitle(Object value) {
+			return I18n.format("stubborn_pipes.pipe");
+		}
+
+		@Override
+		public List<String> getTooltip(Object value) {
+			return Collections.emptyList();
+		}
+
+		@Override
+		public ISimpleDrawable createDrawable(Object value) {
 			return new ISimpleDrawable() {
 				private final Iterator<Item> it = Iterables.cycle(StubbornPipes.woodPower, StubbornPipes.stonePower, StubbornPipes.cobblePower, StubbornPipes.quartzPower,
 						StubbornPipes.goldPower, StubbornPipes.sandstonePower, StubbornPipes.ironPower, StubbornPipes.diamondPower, StubbornPipes.emeraldPower).iterator();
@@ -71,13 +91,17 @@ public class GuideThings {
 				}
 			};
 		}
+
+		@Override
+		public void iterateAllDefault(IEntryLinkConsumer consumer, Profiler profiler) {
+		}
 	}
 
 	@SideOnly(Side.CLIENT)
 	public static void addTags() {
-		PageEntryType.register(PipeEntryType.ID, PipeEntryType.INSTANCE);
+		GuidePageRegistry.INSTANCE.addType(PipeValueType.ID, new PipeValueType());
 
-		XmlPageLoader.TAG_FACTORIES.put("pipeLink", tag -> {
+		XmlPageLoader.TAG_FACTORIES.put("pipeLink", (tag, profiler) -> {
 			ItemStack stack = XmlPageLoader.loadItemStack(tag);
 
 			PageLine line;
@@ -100,7 +124,7 @@ public class GuideThings {
 			});
 		});
 
-		XmlPageLoader.TAG_FACTORIES.put("pipeColouring", tag -> {
+		XmlPageLoader.TAG_FACTORIES.put("pipeColouring", (tag, profiler) -> {
 			ItemStack stack = XmlPageLoader.loadItemStack(tag);
 			List<Pair<Ingredient[][], ItemStack>> found = new ArrayList<>();
 

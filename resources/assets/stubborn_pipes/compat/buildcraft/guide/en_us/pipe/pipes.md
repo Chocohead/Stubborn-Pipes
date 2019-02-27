@@ -5,7 +5,6 @@ Conductive pipes are very similar to kinesis pipes. There are some differences h
  They manage to render more reliably
  They render a bit more efficiently
  They can be visually updated with a wrench
-<new_page/>
 Not to say that are by any means perfect, they too suffer from some visual issues and aren't the lightest on network traffic produced.
 
 The power limits are more complicated than one might expect too.

@@ -1,0 +1,9 @@
+~{buildcraft/json/lib}
+/**
+ * %: The target book for all entries
+ */
+~args 1
+
+import "buildcraftlib:util" "${0}"
+
+alias power_pipe 2 `pipe "pipe_fu" "%0" "%1"`

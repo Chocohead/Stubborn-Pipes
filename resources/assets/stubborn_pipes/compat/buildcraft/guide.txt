@@ -1,0 +1,16 @@
+~{buildcraft/json/insn}
+
+//Imports are transitive so the util will pass in BC's util
+import "stubborn_pipes:util" "buildcraftcore:main"
+
+power_pipe "wooden_pipe" "(stubborn_pipes:wood_power)"
+power_pipe "cobble_pipe" "(stubborn_pipes:cobblestone_power)"
+power_pipe "sandstone_pipe" "(stubborn_pipes:sandstone_power)"
+power_pipe "stone_pipe" "(stubborn_pipes:stone_power)"
+power_pipe "quartz_pipe" "(stubborn_pipes:quartz_power)"
+power_pipe "iron_pipe" "(stubborn_pipes:iron_power)"
+power_pipe "gold_pipe" "(stubborn_pipes:gold_power)"
+power_pipe "diamond_pipe" "(stubborn_pipes:diamond_power)"
+power_pipe "emerald_pipe" "(stubborn_pipes:diamond_wood_power)"
+
+add_basic "pipes" "stubborn_pipes:pipe" "pipe" "pipe_fu" ``
