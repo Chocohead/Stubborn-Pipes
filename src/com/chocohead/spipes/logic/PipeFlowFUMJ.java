@@ -130,7 +130,7 @@ public class PipeFlowFUMJ extends PipeFlowAbstractFU<Section> implements IDebugg
 	@Override
 	public boolean onFlowActivate(EntityPlayer player, RayTraceResult trace, float hitX, float hitY, float hitZ, EnumPipePart part) {
 		if (EntityUtil.getWrenchHand(player) != null) {
-			EntityUtil.activateWrench(player);
+			EntityUtil.activateWrench(player, trace);
 
 			if (!player.world.isRemote) {
 				sendPayload(PipeFlowPower.NET_POWER_AMOUNTS);

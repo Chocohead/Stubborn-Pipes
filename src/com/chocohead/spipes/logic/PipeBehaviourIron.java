@@ -40,7 +40,7 @@ public class PipeBehaviourIron extends PipeBehaviour implements IPowerLimit {
 	@Override
 	public boolean onPipeActivate(EntityPlayer player, RayTraceResult trace, float hitX, float hitY, float hitZ, EnumPipePart part) {
 		if (EntityUtil.getWrenchHand(player) != null) {
-			EntityUtil.activateWrench(player);
+			EntityUtil.activateWrench(player, trace);
 
 			//Loop round: 20/40/80/160/320/640/1280
 			if (capacity == 1280) {
