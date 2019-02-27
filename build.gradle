@@ -21,7 +21,7 @@ repositories {
 	}
 }
 
-version = "1.0"
+version = "1.1"
 group = "com.chocohead.spipes"
 archivesBaseName = "Stubborn Pipes"
 
@@ -40,7 +40,7 @@ minecraft {
 }
 
 dependencies {
-	deobfCompile "com.mod-buildcraft:buildcraft:7.99.17"
+	deobfCompile "com.mod-buildcraft:buildcraft-main:7.99.22"
 	//provided fileTree(dir: 'lib', include: '*.jar')
 }
 
