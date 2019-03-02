@@ -1,7 +1,14 @@
 package com.chocohead.spipes.logic;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
+import org.apache.commons.lang3.tuple.Pair;
+
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 
@@ -38,6 +45,11 @@ public class PipeFlowFU extends PipeFlowAbstractFU<SidePower> {
 		if (side.isClient()) {
 
 		}
+	}
+
+	@Override
+	public List<Pair<Predicate<IPipe>, Consumer<BufferBuilder>>> getRender() {
+		return Collections.emptyList(); //TODO: Add me
 	}
 
 

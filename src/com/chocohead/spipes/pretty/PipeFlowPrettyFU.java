@@ -10,13 +10,11 @@ import net.minecraft.client.renderer.BufferBuilder;
 import buildcraft.api.transport.pipe.IPipe;
 import buildcraft.api.transport.pipe.IPipeFlowRenderer;
 
-import com.chocohead.spipes.logic.PipeFlowFUMJ;
-
-public enum PipeFlowPrettyFU implements IPipeFlowRenderer<PipeFlowFUMJ> {
+public enum PipeFlowPrettyFU implements IPipeFlowRenderer<PrettyPipeFlow> {
 	INSTANCE;
 
 	@Override
-	public void render(PipeFlowFUMJ pipe, double x, double y, double z, float partialTicks, BufferBuilder buffer) {
+	public void render(PrettyPipeFlow pipe, double x, double y, double z, float partialTicks, BufferBuilder buffer) {
 		buffer.setTranslation(x, y, z);
 
 		for (Pair<Predicate<IPipe>, Consumer<BufferBuilder>> con : pipe.getRender()) {

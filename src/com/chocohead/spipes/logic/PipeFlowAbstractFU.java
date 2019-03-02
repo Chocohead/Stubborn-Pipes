@@ -16,8 +16,9 @@ import buildcraft.api.transport.pipe.IPipe;
 import buildcraft.api.transport.pipe.PipeFlow;
 
 import com.chocohead.spipes.logic.PipeFlowAbstractFU.SidePower;
+import com.chocohead.spipes.pretty.PrettyPipeFlow;
 
-public abstract class PipeFlowAbstractFU<T extends SidePower> extends PipeFlow {
+public abstract class PipeFlowAbstractFU<T extends SidePower> extends PrettyPipeFlow {
 	public final Map<EnumFacing, T> sections;
 	protected int pipeCapacity = -1;
 

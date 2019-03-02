@@ -27,8 +27,9 @@ import buildcraft.api.transport.pipe.PipeFlow;
 import buildcraft.transport.pipe.flow.PipeFlowPower;
 
 import com.chocohead.spipes.pretty.PrettyFlowTask;
+import com.chocohead.spipes.pretty.PrettyPipeFlow;
 
-public class PipeFlowDebug extends PipeFlow implements IDebuggable {
+public class PipeFlowDebug extends PrettyPipeFlow implements IDebuggable {
 	private Future<List<Pair<Predicate<IPipe>, Consumer<BufferBuilder>>>> renderTask;
 	protected int flow;
 
@@ -72,6 +73,7 @@ public class PipeFlowDebug extends PipeFlow implements IDebuggable {
 		}
 	}
 
+	@Override
 	public List<Pair<Predicate<IPipe>, Consumer<BufferBuilder>>> getRender() {
 		try {//Will force the current task to be calculated if not already done
 			return renderTask != null ? renderTask.get() : Collections.emptyList();

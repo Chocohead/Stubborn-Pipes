@@ -96,6 +96,7 @@ public class PipeFlowFUMJ extends PipeFlowAbstractFU<Section> implements IDebugg
 		}
 	}
 
+	@Override
 	public List<Pair<Predicate<IPipe>, Consumer<BufferBuilder>>> getRender() {
 		try {//Will force the current task to be calculated if not already done
 			return renderTask != null ? renderTask.get() : Collections.emptyList();
