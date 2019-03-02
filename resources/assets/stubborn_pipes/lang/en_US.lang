@@ -10,6 +10,7 @@ item.pipe.stubborn_pipes.gold_power.name=Gold Power Conductive
 item.pipe.stubborn_pipes.diamond_power.name=Diamond Power Conductive
 item.pipe.stubborn_pipes.diamond_wood_power.name="Emerald" Conductive Pipe
 item.pipe.stubborn_pipes.diamond_wood_power.tooltip=Seems dusty...
+item.pipe.stubborn_pipes.debug_power=Debug "Conductive" Pipe
 item.pipe.stubborn_pipes.update=Sent render update
 
 tile.stubborn_pipes.mj_tester.mj.name=MJ Tester Cube

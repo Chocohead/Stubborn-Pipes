@@ -4,9 +4,14 @@ import static com.chocohead.spipes.StubbornPipes.MODID;
 
 import java.util.IdentityHashMap;
 import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+
+import org.apache.commons.lang3.tuple.Pair;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.init.Items;
@@ -33,8 +38,10 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import buildcraft.api.transport.pipe.IPipe;
 import buildcraft.api.transport.pipe.PipeApiClient;
 import buildcraft.api.transport.pipe.PipeDefinition;
+import buildcraft.api.transport.pipe.PipeFlowType;
 
 import buildcraft.lib.registry.CreativeTabManager;
 import buildcraft.lib.registry.CreativeTabManager.CreativeTabBC;
@@ -46,10 +53,12 @@ import buildcraft.transport.item.ItemPipeHolder;
 import com.chocohead.spipes.block.BlockMJTester;
 import com.chocohead.spipes.block.BlockMJTester.Type;
 import com.chocohead.spipes.item.ItemMJTester;
+import com.chocohead.spipes.logic.PipeBehaviourDebug;
 import com.chocohead.spipes.logic.PipeBehaviourIron;
 import com.chocohead.spipes.logic.PipeBehaviourPowerInput;
 import com.chocohead.spipes.logic.PipeBehaviourPowerLimit;
 import com.chocohead.spipes.logic.PipeBehaviourSandstone;
+import com.chocohead.spipes.logic.PipeFlowDebug;
 import com.chocohead.spipes.logic.PipeFlowFUMJ;
 import com.chocohead.spipes.logic.RenderPool;
 import com.chocohead.spipes.pretty.PipeFlowPrettyFU;
@@ -102,6 +111,10 @@ public final class StubbornPipes {
 		builder.logic(PipeBehaviourPowerInput::emerald, PipeBehaviourPowerInput::emerald).texSuffixes("_clear", "_filled");
 		emeraldPower = register(helper, builder.idTexPrefix("diamond_wood_power").define());
 
+		builder.logic(PipeBehaviourDebug::new, PipeBehaviourDebug::new);
+		builder.flow(new PipeFlowType(PipeFlowDebug::new, PipeFlowDebug::new));
+		cobblePower = register(helper, builder.id("debug_power").tex("cobblestone_power").define());
+
 		if (event.getSide().isClient()) {
 			MinecraftForge.EVENT_BUS.register(new Object() {
 				@SubscribeEvent
@@ -115,6 +128,17 @@ public final class StubbornPipes {
 
 			//PipeApiClient.registry.registerRenderer(PipeFlowFU.class, PipeFlowPrettyFU.INSTANCE);
 			PipeApiClient.registry.registerRenderer(PipeFlowFUMJ.class, PipeFlowPrettyFU.INSTANCE);
+			PipeApiClient.registry.registerRenderer(PipeFlowDebug.class, (pipe, x, y, z, partialTicks, buffer) -> {
+				buffer.setTranslation(x, y, z);
+
+				for (Pair<Predicate<IPipe>, Consumer<BufferBuilder>> con : pipe.getRender()) {
+					if (con.getLeft().test(pipe.pipe)) {
+						con.getRight().accept(buffer);
+					}
+				}
+
+				buffer.setTranslation(0, 0, 0);
+			});
 		}
 	}
 
