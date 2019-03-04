@@ -1,7 +1,6 @@
 package com.chocohead.spipes.logic;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CancellationException;
@@ -10,6 +9,8 @@ import java.util.concurrent.Future;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import com.google.common.base.Strings;
+import com.google.common.primitives.Ints;
 import org.apache.commons.lang3.tuple.Pair;
 
 import net.minecraft.client.renderer.BufferBuilder;
@@ -20,18 +21,19 @@ import net.minecraft.util.EnumFacing;
 
 import net.minecraftforge.fml.relauncher.Side;
 
+import buildcraft.api.core.EnumPipePart;
 import buildcraft.api.tiles.IDebuggable;
 import buildcraft.api.transport.pipe.IPipe;
 import buildcraft.api.transport.pipe.PipeFlow;
 
 import buildcraft.transport.pipe.flow.PipeFlowPower;
 
-import com.chocohead.spipes.pretty.PrettyFlowTask;
+import com.chocohead.spipes.pretty.PrettyDebugFlowTask;
 import com.chocohead.spipes.pretty.PrettyPipeFlow;
 
 public class PipeFlowDebug extends PrettyPipeFlow implements IDebuggable {
 	private Future<List<Pair<Predicate<IPipe>, Consumer<BufferBuilder>>>> renderTask;
-	protected int flow;
+	protected int[] flow;
 
 	public PipeFlowDebug(IPipe pipe) {
 		super(pipe);
@@ -52,7 +54,7 @@ public class PipeFlowDebug extends PrettyPipeFlow implements IDebuggable {
 
 		if (side == Side.SERVER) {
 			if (id == PipeFlowPower.NET_POWER_AMOUNTS || id == NET_ID_FULL_STATE) {
-				buffer.writeDouble(flow / 100D);
+				buffer.writeVarIntArray(flow);
 			}
 		}
 	}
@@ -63,12 +65,14 @@ public class PipeFlowDebug extends PrettyPipeFlow implements IDebuggable {
 
 		if (side == Side.CLIENT) {
 			if (id == PipeFlowPower.NET_POWER_AMOUNTS || id == NET_ID_FULL_STATE) {
+				int[] serverFlow = buffer.readVarIntArray();
+
 				double[] flows = new double[EnumFacing.VALUES.length];
+				for (int i = 0; i < flows.length; i++) {
+					flows[EnumPipePart.VALUES[i].face.getIndex()] = serverFlow[i] / 100D;
+				}
 
-				Arrays.fill(flows, buffer.readDouble());
-				buffer.release();
-
-				renderTask = RenderPool.queue(new PrettyFlowTask(flows));
+				renderTask = RenderPool.queue(new PrettyDebugFlowTask(flows));
 			}
 		}
 	}
@@ -100,12 +104,18 @@ public class PipeFlowDebug extends PrettyPipeFlow implements IDebuggable {
 
 
 	public void updateFlow(boolean tellClient) {
-		flow = ((IPowerLimit) pipe.getBehaviour()).getPipeCapacity();
+		flow = ((PipeBehaviourDebug) pipe.getBehaviour()).getPipeCapacities();
 		if (tellClient) sendPayload(PipeFlowPower.NET_POWER_AMOUNTS);
 	}
 
 	@Override
 	public void getDebugInfo(List<String> left, List<String> right, EnumFacing side) {
-		left.add("flow = " + flow);
+		final String prefix = "flow = ";
+		String offset = Strings.repeat(" ", prefix.length());
+
+		for (int i = 0; i < flow.length; i++) {
+			left.add((i == 0 ? prefix : offset) + EnumPipePart.VALUES[i] + ": " + flow[i]);
+		}
+		left.add(offset + EnumPipePart.CENTER + ": " + Ints.max(flow));
 	}
 }
