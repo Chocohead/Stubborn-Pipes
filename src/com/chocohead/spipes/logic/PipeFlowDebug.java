@@ -28,7 +28,7 @@ import buildcraft.api.transport.pipe.PipeFlow;
 
 import buildcraft.transport.pipe.flow.PipeFlowPower;
 
-import com.chocohead.spipes.pretty.PrettyDebugFlowTask;
+import com.chocohead.spipes.pretty.PrettyFlowTask;
 import com.chocohead.spipes.pretty.PrettyPipeFlow;
 
 public class PipeFlowDebug extends PrettyPipeFlow implements IDebuggable {
@@ -72,7 +72,7 @@ public class PipeFlowDebug extends PrettyPipeFlow implements IDebuggable {
 					flows[EnumPipePart.VALUES[i].face.getIndex()] = serverFlow[i] / 100D;
 				}
 
-				renderTask = RenderPool.queue(new PrettyDebugFlowTask(flows));
+				renderTask = RenderPool.queue(new PrettyFlowTask(flows));
 			}
 		}
 	}

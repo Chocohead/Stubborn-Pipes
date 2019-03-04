@@ -13,7 +13,6 @@ import java.util.function.Predicate;
 import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 
-import com.google.common.primitives.Doubles;
 import org.apache.commons.lang3.tuple.Pair;
 
 import net.minecraft.client.renderer.BufferBuilder;
@@ -87,9 +86,6 @@ public class PipeFlowFUMJ extends PipeFlowAbstractFU<Section> implements IDebugg
 				for (EnumFacing face : EnumFacing.VALUES) {
 					flows[face.getIndex()] = buffer.readDouble();
 				}
-
-				//Debug to set to max, akin to MJ rendering
-				Arrays.fill(flows, Doubles.max(flows));
 
 				renderTask = RenderPool.queue(new PrettyFlowTask(flows));
 			}
